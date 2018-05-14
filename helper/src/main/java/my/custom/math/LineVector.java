@@ -1,19 +1,19 @@
 package my.custom.math;
 
-public final class RowVector extends Vector {
+public final class LineVector extends Vector {
   
-  public RowVector(int countColumnValues) {
+  public LineVector(int countColumnValues) {
     super(1, countColumnValues);
   }
   
-  public RowVector(double[] byValues) {
+  public LineVector(double[] byValues) {
     this(byValues.length);
     for (int position = 0; position < byValues.length; position++) {
       setValue(position, byValues[position]);
     }
   }
   
-  protected RowVector(Matrix matrix) {
+  protected LineVector(Matrix matrix) {
     super(matrix);
   }
 

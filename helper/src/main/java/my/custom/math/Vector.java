@@ -24,7 +24,7 @@ public abstract class Vector extends Matrix {
     Vector result;
 
     if (matrix.getRows() == 1) {
-      result = new RowVector(matrix);
+      result = new LineVector(matrix);
     } else if (matrix.getColumns() == 1) {
       result = new ColumnVector(matrix);
     } else {

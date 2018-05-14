@@ -26,29 +26,36 @@ public class NeuralNetwork {
   /**
    * this method checks the specified counts of nodes for each layer
    * 
-   * @param countNodesOnlayer
+   * @param countNodesOnLayer
    */
-  private static void throwIfValuesAreInvalid(int[] countNodesOnlayer) {
-    if (countNodesOnlayer == null || countNodesOnlayer.length == 0) {
+  private static void throwIfValuesAreInvalid(int[] countNodesOnLayer) {
+    if (countNodesOnLayer == null || countNodesOnLayer.length == 0) {
       throw new IllegalArgumentException("no network specified");
     }
 
-    for (int pos = 0; pos < countNodesOnlayer.length; pos++) {
-      int count = countNodesOnlayer[pos];
+    for (int pos = 0; pos < countNodesOnLayer.length; pos++) {
+      int count = countNodesOnLayer[pos];
       if (count <= 0) {
         throw new IllegalArgumentException("count of nodes on layer " + pos + " cannot be negativ or 0");
       }
     }
   }
 
-  public NeuralNetwork(ActivationFunction activationFunction, int[] countNodesBetweenLayerAndSucceedingLayer, double learningRate) {
-    throwIfValuesAreInvalid(countNodesBetweenLayerAndSucceedingLayer);
+  /**
+   * constructor of the neural network
+   * 
+   * @param activationFunction an activation function
+   * @param countNodesOnLayer count of nodes on layer 1 is represented by an integer value on position 0, and so on (no 0 values allowed in this array)
+   * @param learningRate how fast learning will be done
+   */
+  public NeuralNetwork(ActivationFunction activationFunction, int[] countNodesOnLayer, double learningRate) {
+    throwIfValuesAreInvalid(countNodesOnLayer);
     this.activationFunction = activationFunction;
     this.alpha = learningRate;
-    this.weights = new Matrix[countNodesBetweenLayerAndSucceedingLayer.length - 1];
-    for (int pos = 0; pos < countNodesBetweenLayerAndSucceedingLayer.length - 1; pos++) {
-      int count = countNodesBetweenLayerAndSucceedingLayer[pos];
-      int countNext = countNodesBetweenLayerAndSucceedingLayer[pos + 1];
+    this.weights = new Matrix[countNodesOnLayer.length - 1];
+    for (int pos = 0; pos < countNodesOnLayer.length - 1; pos++) {
+      int count = countNodesOnLayer[pos];
+      int countNext = countNodesOnLayer[pos + 1];
       Matrix m = new Matrix(countNext, count);
       initializeMatrix(m);
       weights[pos] = m;
@@ -100,6 +107,12 @@ public class NeuralNetwork {
     }
   }
 
+  /**
+   * queries the neural network and returns a ColumnVector containing the values of the output layer for a given input
+   *    
+   * @param input
+   * @return
+   */
   public ColumnVector query(ColumnVector input) throws Exception {
     Matrix intermediate = input;
     for (int currentHandledWeightsBetweenLayers = 0; currentHandledWeightsBetweenLayers < this.weights.length; currentHandledWeightsBetweenLayers++) {
@@ -111,6 +124,12 @@ public class NeuralNetwork {
     return output;
   }
 
+  /**
+   * trains the neural network for a given input and for results which should be returned when querying the neural network
+   * 
+   * @param input
+   * @param expectedResults
+   */
   public void train(ColumnVector input, ColumnVector expectedResults) throws Exception {
 
     int outputsIndex = 0;

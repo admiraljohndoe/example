@@ -1,15 +1,46 @@
 package my.custom.image.reader;
 
-import java.awt.image.BufferedImage;
+import java.awt.Dimension;
 import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class ImageReader {
 
-  public byte[] read(File file) throws IOException {
-    BufferedImage bufferedImage = ImageIO.read(file);
+  private Dimension dimension;
+
+  private byte[] bytes;
+
+  private File file;
+
+  public ImageReader() {
+  }
+
+  public boolean read() throws Exception {
+    // TODO
+    return false;
+  }
+
+  public void setFile(File file) {
+    this.file = file;
+  }
+
+  public File getFile() {
+    return this.file;
+  }
+
+  public void setDimension(Dimension dimension) {
+    this.dimension = dimension;
+  }
+
+  public Dimension getDimension() {
+    return this.dimension;
+  }
+
+  public void setBytes(byte[] bytes) {
+    this.bytes = bytes;
+  }
+
+  public byte[] getBytes() {
+    return this.bytes;
   }
   
 }
